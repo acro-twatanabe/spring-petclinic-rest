@@ -8,9 +8,25 @@
     </contextListener>
     
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <!--
         <encoder>
             <pattern>%-5level %logger{0} - %msg%n</pattern>
         </encoder>
+        -->
+        <encoder class="co.elastic.logging.logback.EcsEncoder">
+            <serviceName>spring-petclinic</serviceName>
+        </encoder>
+    </appender>
+    <appender name="json-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder class="co.elastic.logging.logback.EcsEncoder">
+            <serviceName>my-application</serviceName>
+        </encoder>
+        <file>petclinic.json</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.json.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
+            <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
+            <maxHistory>${LOG_FILE_MAX_HISTORY:-0}</maxHistory>
+        </rollingPolicy>
     </appender>
 
     <!--<logger name="org.hibernate" level="debug"/> -->
@@ -18,5 +34,6 @@
 
     <root level="info">
         <appender-ref ref="console"/>
+        <appender-ref ref="json-file"/>
     </root>
 </configuration>

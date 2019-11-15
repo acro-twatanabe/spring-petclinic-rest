@@ -17,6 +17,8 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
@@ -47,6 +49,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 
 public class ClinicServiceImpl implements ClinicService {
+	
+	private Logger logger = LoggerFactory.getLogger(ClinicServiceImpl.class);
 
     private PetRepository petRepository;
     private VetRepository vetRepository;
@@ -142,6 +146,7 @@ public class ClinicServiceImpl implements ClinicService {
 	@Override
 	@Transactional(readOnly = true)
 	public Collection<Owner> findAllOwners() throws DataAccessException {
+		logger.info("Find all owners.");
 		return ownerRepository.findAll();
 	}
 
