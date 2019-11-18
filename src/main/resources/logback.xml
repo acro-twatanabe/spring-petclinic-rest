@@ -21,7 +21,7 @@
         <encoder class="co.elastic.logging.logback.EcsEncoder">
             <serviceName>my-application</serviceName>
         </encoder>
-        <file>petclinic.json</file>
+        <file>/var/log/demo/petclinic.json</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${LOG_FILE}.json.%d{yyyy-MM-dd}.%i.gz</fileNamePattern>
             <maxFileSize>${LOG_FILE_MAX_SIZE:-10MB}</maxFileSize>
