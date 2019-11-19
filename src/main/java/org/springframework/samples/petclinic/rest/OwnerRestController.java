@@ -21,6 +21,8 @@ import java.util.Collection;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -47,6 +49,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 @CrossOrigin(exposedHeaders = "errors, content-type")
 @RequestMapping("/api/owners")
 public class OwnerRestController {
+	
+	private Logger logger = LoggerFactory.getLogger(OwnerRestController.class);
 
 	@Autowired
 	private ClinicService clinicService;
@@ -67,10 +71,13 @@ public class OwnerRestController {
     @PreAuthorize( "hasRole(@roles.OWNER_ADMIN)" )
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<Collection<Owner>> getOwners() {
+    	logger.info("Get owners.");
 		Collection<Owner> owners = this.clinicService.findAllOwners();
 		if (owners.isEmpty()) {
+			logger.info("Owner not found.");
 			return new ResponseEntity<Collection<Owner>>(HttpStatus.NOT_FOUND);
 		}
+		logger.info(owners.size() + " owners found.");
 		return new ResponseEntity<Collection<Owner>>(owners, HttpStatus.OK);
 	}
 

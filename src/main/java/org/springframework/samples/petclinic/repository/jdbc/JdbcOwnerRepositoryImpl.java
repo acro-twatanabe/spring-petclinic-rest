@@ -23,6 +23,8 @@ import java.util.Map;
 import javax.sql.DataSource;
 import javax.transaction.Transactional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.DataAccessException;
@@ -55,6 +57,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Profile("jdbc")
 public class JdbcOwnerRepositoryImpl implements OwnerRepository {
+	
+	private Logger logger = LoggerFactory.getLogger(JdbcOwnerRepositoryImpl.class);
 
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -113,6 +117,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
     }
 
     public void loadPetsAndVisits(final Owner owner) {
+		logger.debug("JdbcOwnerRepositoryImpl#loadPetsAndVisits() start. Owner ID = " + owner.getId());
         Map<String, Object> params = new HashMap<>();
         params.put("id", owner.getId());
         final List<JdbcPet> pets = this.namedParameterJdbcTemplate.query(
@@ -125,6 +130,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
             pet.setType(EntityUtils.getById(petTypes, PetType.class, pet.getTypeId()));
             owner.addPet(pet);
         }
+		logger.debug("JdbcOwnerRepositoryImpl#loadPetsAndVisits() end.");
     }
 
     @Override
@@ -161,6 +167,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
     
 	@Override
 	public Collection<Owner> findAll() throws DataAccessException {
+		logger.debug("JdbcOwnerRepositoryImpl#findAll() start.");
 		List<Owner> owners = this.namedParameterJdbcTemplate.query(
 	            "SELECT id, first_name, last_name, address, city, telephone FROM owners",
 	            new HashMap<String, Object>(),
@@ -168,6 +175,7 @@ public class JdbcOwnerRepositoryImpl implements OwnerRepository {
 		for (Owner owner : owners) {
             loadPetsAndVisits(owner);
         }
+		logger.debug("JdbcOwnerRepositoryImpl#findAll() end.");
 	    return owners;
 	}
 
