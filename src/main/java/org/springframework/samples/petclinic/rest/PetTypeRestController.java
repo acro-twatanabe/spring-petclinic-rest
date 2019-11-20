@@ -61,6 +61,10 @@ public class PetTypeRestController {
     @PreAuthorize( "hasAnyRole(@roles.OWNER_ADMIN, @roles.VET_ADMIN)" )
 	@RequestMapping(value = "/{petTypeId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	public ResponseEntity<PetType> getPetType(@PathVariable("petTypeId") int petTypeId){
+    	if (petTypeId == 9999) {
+    		throw new RuntimeException("Expected: controller used to showcase what "
+                    + "happens when an exception is thrown");
+    	}
 		PetType petType = this.clinicService.findPetTypeById(petTypeId);
 		if(petType == null){
 			return new ResponseEntity<PetType>(HttpStatus.NOT_FOUND);

@@ -135,7 +135,19 @@ public class ClinicServiceImpl implements ClinicService {
 	@Transactional(readOnly = true)
 	public Collection<Vet> findAllVets() throws DataAccessException {
 		logger.info("Find all vets.");
+		for (int i = 0; i < 120; i++) {
+			dummyMethod();
+		}
 		return vetRepository.findAll();
+	}
+	
+	private void dummyMethod() {
+		try {
+			Thread.sleep(30);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -250,11 +262,21 @@ public class ClinicServiceImpl implements ClinicService {
 		Owner owner = null;
 		try {
 			owner = ownerRepository.findById(id);
+			longMethod();
 		} catch (ObjectRetrievalFailureException|EmptyResultDataAccessException e) {
 		// just ignore not found exceptions for Jdbc/Jpa realization
 			return null;
 		}
 		return owner;
+	}
+	
+	private void longMethod() {
+		try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
