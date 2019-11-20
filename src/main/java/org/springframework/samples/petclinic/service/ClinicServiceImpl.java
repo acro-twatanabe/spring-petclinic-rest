@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -135,15 +136,17 @@ public class ClinicServiceImpl implements ClinicService {
 	@Transactional(readOnly = true)
 	public Collection<Vet> findAllVets() throws DataAccessException {
 		logger.info("Find all vets.");
+		Random rnd = new Random();
+		int millis = rnd.nextInt(40);
 		for (int i = 0; i < 120; i++) {
-			dummyMethod();
+			dummyMethod(millis);
 		}
 		return vetRepository.findAll();
 	}
 	
-	private void dummyMethod() {
+	private void dummyMethod(int millis) {
 		try {
-			Thread.sleep(30);
+			Thread.sleep(millis);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -272,7 +275,8 @@ public class ClinicServiceImpl implements ClinicService {
 	
 	private void longMethod() {
 		try {
-			Thread.sleep(10000);
+			Random rnd = new Random();
+			Thread.sleep(rnd.nextInt(6000));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
