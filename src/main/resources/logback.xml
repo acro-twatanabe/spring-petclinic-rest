@@ -14,12 +14,12 @@
         </encoder>
         -->
         <encoder class="co.elastic.logging.logback.EcsEncoder">
-            <serviceName>spring-petclinic</serviceName>
+            <serviceName>spring-petclinic-rest</serviceName>
         </encoder>
     </appender>
     <appender name="json-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <encoder class="co.elastic.logging.logback.EcsEncoder">
-            <serviceName>my-application</serviceName>
+            <serviceName>spring-petclinic-rest</serviceName>
         </encoder>
         <file>/var/log/demo/petclinic.json</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
