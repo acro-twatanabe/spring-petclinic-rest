@@ -11,7 +11,7 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'a85db2e2-db49-4fa7-afd4-766d9c3835ee'
-  imageRepository: 'appspring'
+  imageRepository: 'app-spring'
   containerRegistry: 'petclinic.azurecr.io'
   dockerfilePath: '**/Dockerfile_springboot'
   tag: '$(Build.BuildId)'
